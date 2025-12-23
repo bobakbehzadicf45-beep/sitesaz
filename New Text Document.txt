@@ -1,0 +1,6 @@
+# پکیج‌های اصلی
+sudo apt-get install -y curl wget git build-essential ca-certificates gnupg nginx certbot python3-certbot-nginx ufw htop nano unzip fonts-liberation xdg-utils
+
+# بعد ادامه نصب
+cd /opt/ariyabot
+sudo python3 install.py
