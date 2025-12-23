@@ -1,0 +1,122 @@
+# serviceSettings
+
+## OpenAPI Specification
+
+```yaml
+openapi: 3.0.1
+info:
+  title: ''
+  description: ''
+  version: 1.0.0
+paths:
+  /serviceSettings/APIKEY:
+    get:
+      summary: serviceSettings
+      deprecated: false
+      description: >-
+        The `serviceSettings` API method allows users to view their WhatsApp
+        account settings by providing their API key to the API endpoint. Users
+        can access various account details and configurations, including:
+
+
+        1. **Connection Status (****`connectionStatus`****):** Indicates the
+        current status of the service's connection.
+
+        2. **WhatsApp Number (****`whatsAppNumber`****):** The WhatsApp number
+        associated with the service.
+
+        3. **Country Code (****`countryCode`****):** This code is used when
+        sending messages to numbers without a country code prefix. By default,
+        it is used as the country code prefix (Refer to
+        [countryCode](https://documenter.getpostman.com/view/34187621/2sA3BgBw76#91f9fa2f-8af4-44d3-aec0-ac3fb57c362a)
+        section to set this option).
+
+        4. **WhatsApp Receive Message Status
+        (****`whatsAppReceiveMessage`****):** If enabled, indicates that the
+        service is capable of receiving messages, allowing users to process
+        incoming messages.
+
+        5. **Webhook (****`webhook`****):** The configured webhook address. By
+        default, it is empty. (Refer to
+        [Webhook](https://documenter.getpostman.com/view/34187621/2sA3BgBw76#3801eca6-4e92-4d97-be4e-30b8c54945f1)
+        section to set this option)
+
+        6. **Account Level (****`level`****):** Indicates the service level.
+        Level 1 corresponds to a basic service, level 2 corresponds to a pro
+        service, and level 3 corresponds to a premium service.
+            
+
+        By utilizing the `serviceSettings` method, users can gain insights into
+        their account's configuration and monitor various aspects of their
+        WhatsApp service.
+      tags:
+        - Settings
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  connectionStatus:
+                    type: string
+                  whatsAppNumber:
+                    type: string
+                  countrycode:
+                    type: string
+                  statusCountryCode:
+                    type: string
+                  whatsAppReceiveMessage:
+                    type: string
+                  webhook:
+                    type: string
+                  level:
+                    type: string
+                required:
+                  - status
+                  - connectionStatus
+                  - whatsAppNumber
+                  - countrycode
+                  - statusCountryCode
+                  - whatsAppReceiveMessage
+                  - webhook
+                  - level
+                x-apidog-orders:
+                  - status
+                  - connectionStatus
+                  - whatsAppNumber
+                  - countrycode
+                  - statusCountryCode
+                  - whatsAppReceiveMessage
+                  - webhook
+                  - level
+              example:
+                status: 'true'
+                connectionStatus: Connected to WhatsApp
+                whatsAppNumber: '15551234567'
+                countrycode: '1'
+                statusCountryCode: >-
+                  When sending a message, if the phone number starts with zero,
+                  the  will replace zero
+                whatsAppReceiveMessage: Enable
+                webhook: ''
+                level: '3'
+          headers: {}
+          x-apidog-name: serviceSettings
+      security: []
+      x-apidog-folder: Settings
+      x-apidog-status: released
+      x-run-in-apidog: https://app.apidog.com/web/project/545232/apis/api-7458061-run
+components:
+  schemas: {}
+  securitySchemes: {}
+servers:
+  - url: https://api.whatsiplus.com
+    description: WhatsApp API - WhatsiPlus Documentation
+security: []
+
+```
