@@ -143,12 +143,18 @@ def install_system_dependencies():
     log_success("پیش‌نیازهای سیستم نصب شدند")
 
 def install_nodejs():
-    log_info("نصب Node.js 20...")
+    log_info("نصب Node.js (نسخهٔ ۲۰ یا بالاتر)...")
     
     result = run_command("node --version", check=False, capture_output=True)
-    if result.returncode == 0 and "v20" in result.stdout:
-        log_success("Node.js 20 از قبل نصب است")
-        return
+    if result.returncode == 0:
+        out = result.stdout.strip()
+        try:
+            major = int(out.lstrip('v').split('.')[0])
+            if major >= 20:
+                log_success(f"Node.js {out} از قبل نصب است")
+                return
+        except Exception:
+            pass
     
     run_command(
         "curl -fsSL https://deb.nodesource.com/setup_20.x | bash -",
@@ -191,6 +197,19 @@ def setup_database(config):
     
     for cmd in commands:
         run_command(f'sudo -u postgres psql -c "{cmd}"', check=False)
+    
+    # فعال‌سازی extensionهای لازم در دیتابیس (مثلاً pgcrypto) برای توابع تولید UUID
+    run_command(
+        f'sudo -u postgres psql -d {db_name} -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;"',
+        "فعال‌سازی extension pgcrypto در دیتابیس (جهت gen_random_uuid)...",
+        check=False
+    )
+    # همچنین تلاش برای فعال‌سازی uuid-ossp در صورت نیاز
+    run_command(
+        f'sudo -u postgres psql -d {db_name} -c "CREATE EXTENSION IF NOT EXISTS \"uuid-ossp\";"',
+        "فعال‌سازی extension uuid-ossp (اختیاری)...",
+        check=False
+    )
     
     log_success(f"دیتابیس {db_name} ایجاد شد")
 
@@ -271,7 +290,7 @@ After=network.target postgresql.service
 Type=simple
 User={config['app_user']}
 WorkingDirectory={app_dir}
-ExecStart=/usr/bin/npm start
+ExecStart=/usr/bin/env npm start
 Restart=always
 RestartSec=10
 StandardOutput=syslog

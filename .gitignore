@@ -1,0 +1,20 @@
+# Node modules
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+
+# Install config (may contain secrets)
+.install_config.txt
+
+# Build output
+dist/
+
+# OS files
+.DS_Store
